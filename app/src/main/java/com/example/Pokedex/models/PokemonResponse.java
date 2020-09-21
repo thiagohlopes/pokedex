@@ -1,8 +1,8 @@
-package com.example.podedex_api.models;
+package com.example.Pokedex.models;
 
 import java.util.ArrayList;
 
-public class RespostaPokemon {
+public class PokemonResponse {
     private ArrayList<Pokemon> results;
 
     public ArrayList<Pokemon> getResults() {

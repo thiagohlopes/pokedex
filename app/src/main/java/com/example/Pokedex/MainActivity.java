@@ -1,4 +1,4 @@
-package com.example.podedex_api;
+package com.example.Pokedex;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.podedex_api.API.Pokemon.PokeapiService;
-import com.example.podedex_api.models.Pokemon;
-import com.example.podedex_api.models.RespostaPokemon;
+import com.example.Pokedex.API.Pokemon.PokeapiService;
+import com.example.Pokedex.models.Pokemon;
+import com.example.Pokedex.models.PokemonResponse;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Retrofit retrofit;//criando instancia do retrofit
 
     private RecyclerView recyclerView;
-    private ListaPokemonAdapter listaPokemonAdapter;
+    private PokemonAdapter pokemonAdapter;
 
     private int offset;
 
@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        listaPokemonAdapter = new ListaPokemonAdapter(this);
-        recyclerView.setAdapter(listaPokemonAdapter);
+        pokemonAdapter = new PokemonAdapter(this);
+        recyclerView.setAdapter(pokemonAdapter);
         recyclerView.setHasFixedSize(true);
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -77,25 +77,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void ObtençãoDados(int offset) {
         PokeapiService service =retrofit.create(PokeapiService.class);
-        Call<RespostaPokemon> respostaPokemonCall = service.ObterListaPokemon(20, offset);
-
-        respostaPokemonCall.enqueue(new Callback<RespostaPokemon>() {
+        Call<PokemonResponse> respostaPokemonCall = service.getPokemonList(20, offset);
+        respostaPokemonCall.enqueue(new Callback<PokemonResponse>() {
             @Override
-            public void onResponse(Call<RespostaPokemon> call, Response<RespostaPokemon> response) {
+            public void onResponse(Call<PokemonResponse> call, Response<PokemonResponse> response) {
                 aptoParaCarregar = true;
                 if (response.isSuccessful()) {
 
-                    RespostaPokemon respostaPokemon = response.body();
-                    ArrayList<Pokemon> listaPokemon = respostaPokemon.getResults();
+                    PokemonResponse pokemonResponse = response.body();
+                    ArrayList<Pokemon> listaPokemon = pokemonResponse.getResults();
 
-                    listaPokemonAdapter.adicionarListaPokemon(listaPokemon);
+                    pokemonAdapter.updatePokemonList(listaPokemon);
+
                 } else {
                     Log.e(TAG, "OnResponde" + response.errorBody());
                 }
             }
 
             @Override
-            public void onFailure(Call<RespostaPokemon> call, Throwable t) {
+            public void onFailure(Call<PokemonResponse> call, Throwable t) {
                 aptoParaCarregar = true;
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }

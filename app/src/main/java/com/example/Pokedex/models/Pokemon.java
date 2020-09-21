@@ -1,10 +1,13 @@
-package com.example.podedex_api.models;
+package com.example.Pokedex.models;
+
+import java.util.ArrayList;
 
 public class Pokemon {
 
     private int number;
-    private  String name;
+    private String name;
     private String url;
+    private ArrayList<Move> moves;
 
     public String getName() {
         return name;
@@ -24,10 +27,13 @@ public class Pokemon {
 
     public int getNumber() {
         String[] urlPartes = url.split("/");
-        return Integer.parseInt(urlPartes[urlPartes.length -1]);
+        return Integer.parseInt(urlPartes[urlPartes.length - 1]);
     }
 
     public void setNumber(int number) {
         this.number = number;
     }
+
+
 }
+

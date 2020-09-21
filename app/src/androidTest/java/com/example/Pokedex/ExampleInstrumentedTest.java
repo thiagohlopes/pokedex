@@ -1,4 +1,4 @@
-package com.example.podedex_api;
+package com.example.Pokedex;
 
 import android.content.Context;
 
