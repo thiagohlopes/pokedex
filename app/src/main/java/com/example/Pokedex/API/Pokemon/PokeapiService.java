@@ -11,9 +11,15 @@ import com.example.Pokedex.models.PokemonResponse;
 public interface PokeapiService {
 
     @GET("pokemon")
-    Call<PokemonResponse> getPokemonList (@Query("limit") int limit, @Query("offset") int offset); //Call é o tipo da classe que controlara as respostas
-
+    /**
+     *Este metodo retorna uma lista de pokemon
+     */
+    Call<PokemonResponse> getPokemonList(@Query("limit") int limit, @Query("offset") int offset);
+    //Call é o tipo da classe que controlara as respostas
     @GET ("pokemon/{id}")
-    Call<Pokemon> getPokemonDetails (@Path("id") String id);
+    /**
+     *Este metodo retorna os detalhes do pokemon de acordo com o id
+     */
+    Call<Pokemon> getPokemonDetails(@Path("id") String id);
 
 }
